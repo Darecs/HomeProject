@@ -1,4 +1,4 @@
-package com.home.test;
+package com.home.servlet.session;
 
 import java.io.IOException;
 
@@ -17,24 +17,6 @@ import javax.servlet.http.HttpSession;
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LogoutServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html");
@@ -43,9 +25,8 @@ public class LogoutServlet extends HttpServlet {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("JSESSIONID")) {
 					System.out.println("JSESSIONID=" + cookie.getValue());
+					break;
 				}
-				cookie.setMaxAge(0);
-				response.addCookie(cookie);
 			}
 		}
 		// invalidate the session if exists
@@ -54,8 +35,10 @@ public class LogoutServlet extends HttpServlet {
 		if (session != null) {
 			session.invalidate();
 		}
-		// no encoding because we have invalidated the session
 		response.sendRedirect("login.html");
 	}
 
 }
+
+
+
